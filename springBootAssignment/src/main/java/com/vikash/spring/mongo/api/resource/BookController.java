@@ -12,9 +12,8 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.vikash.spring.mongo.api.model.Book;
@@ -48,13 +47,12 @@ public class BookController {
 		return "book deleted with id : " + id;
 	}
 
-	@RequestMapping(value = "/update/{id}", method = RequestMethod.PUT)
+	@PutMapping("/update/{id}")
 	public ResponseEntity<?> update(@PathVariable("id") int id, @RequestBody Book book) {
-		logger.info("Updating User with id {}", id);
 		Optional<Book> b1 = repository.findById(id);
 		Book currentBook = b1.get();
 		if (currentBook == null) {
-			logger.error("Unable to update. User with id {} not found.", id);
+			logger.error("Unable to update. Book with id {} not found.", id);
 			return new ResponseEntity(HttpStatus.NOT_FOUND);
 		}
 
